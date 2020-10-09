@@ -2,7 +2,7 @@
 
 ToDo List App implemented with React.
 
-Hosted example:
+Hosted example: http://todolistapp-react.s3-website.ca-central-1.amazonaws.com
 
 ### Install
 
