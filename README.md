@@ -16,12 +16,42 @@ Simple React to do list app.
 
 Simple blog app using React and axios.
 
-## React
+## React Info
 
-### Class Components Lifecycle - Creation
+### Component Lifecycle
+
+Class Component Lifecycle - Creation:
 
 - constructor(props)
+  - call super(props)
+  - DO: set up state
+  - DON'T: cause side-effects
 - componentWillMount()
+  - DO: update state, last-minute optimization
+  - DON'T: cause side-effects
+  - exists for historical reasons
 - render()
+  - prepare and structure JSX code
 - Render Child Components
 - componentDidMount()
+  - DO: cause side-effects
+  - DON'T: update state (triggers re-render)
+
+Class Component Lifecycle - Update (triggered by Parent):
+
+- componentWillReceiveProps(nextProps)
+  - DO: sync state to props
+  - DON'T: cause side-effects
+- shouldComponentUpdate(nextProps, nextState)
+  - DO: decide whether to continue or not
+  - DON'T: cause side-effects
+  - !may cancel updating process!
+- componentWillUpdate(nextProps, nextState)
+  - DO: sync state to props
+  - DON'T: cause side-effects
+- render()
+  - prepare and structure JSX code
+- Update Child Component Props
+- componentDidUpdate()
+  - DO: cause side-effects
+  - DON'T: update state (triggers re-render)
