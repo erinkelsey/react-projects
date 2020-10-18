@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 import "./NewPost.css";
@@ -7,7 +8,8 @@ class NewPost extends Component {
   state = {
     title: "",
     content: "",
-    author: "Max"
+    author: "Homer"
+    // submitted: false
   };
 
   postDataHandler = async () => {
@@ -16,16 +18,21 @@ class NewPost extends Component {
       body: this.state.content,
       author: this.state.author
     };
-    const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/posts/",
-      post
-    );
-    console.log(response);
+    await axios.post("https://jsonplaceholder.typicode.com/posts/", post);
+    this.props.history.replace("/posts");
+    // this.setState({ submitted: true });
+    // console.log(response);
   };
+
+  // buildRedirect = () => {
+  //   if (!this.state.submitted) return null;
+  //   return <Redirect to='/posts/' />;
+  // };
 
   render() {
     return (
       <div className='NewPost'>
+        {/* {this.buildRedirect()} */}
         <h1>Add a Post</h1>
         <label>Title</label>
         <input
@@ -44,8 +51,8 @@ class NewPost extends Component {
           value={this.state.author}
           onChange={event => this.setState({ author: event.target.value })}
         >
-          <option value='Erin'>Erin</option>
-          <option value='Kelsey'>Kelsey</option>
+          <option value='Homer'>Homer Simpson</option>
+          <option value='Marge'>Marge Simpson</option>
         </select>
         <button onClick={this.postDataHandler}>Add Post</button>
       </div>

@@ -12,12 +12,12 @@ axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 // each request will pass through
 axios.interceptors.request.use(
   request => {
-    console.log(request);
+    // console.log(request);
     // edit request config
     return request;
   },
   error => {
-    console.log(error);
+    // console.log(error);
     return Promise.reject(error);
   }
 );
@@ -25,11 +25,11 @@ axios.interceptors.request.use(
 // all responses pass through
 axios.interceptors.response.use(
   response => {
-    console.log(response);
+    // console.log(response);
     return response;
   },
   error => {
-    console.log(error);
+    // console.log(error);
     return Promise.reject(error);
   }
 );

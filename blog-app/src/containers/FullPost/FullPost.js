@@ -8,26 +8,37 @@ class FullPost extends Component {
     loadedPost: null
   };
 
-  componentDidUpdate = async () => {
-    if (this.props.id) {
+  componentDidMount() {
+    this.loadData();
+  }
+
+  componentDidUpdate() {
+    this.loadData();
+  }
+
+  loadData = async () => {
+    if (this.props.match.params.id) {
       if (
         !this.state.loadedPost ||
-        (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)
+        (this.state.loadedPost && // eslint-disable-next-line
+          this.state.loadedPost.id != this.props.match.params.id)
       ) {
-        const response = await axios.get("/posts/" + this.props.id);
+        const response = await axios.get(
+          "/posts/" + this.props.match.params.id
+        );
         this.setState({ loadedPost: response.data });
       }
     }
   };
 
   deletePostHandler = async () => {
-    const response = await axios.delete("/posts/" + this.props.id);
+    const response = await axios.delete("/posts/" + this.props.match.params.id);
     console.log(response);
   };
 
   render() {
     let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
-    if (this.props.id)
+    if (this.props.match.params.id)
       post = <p style={{ textAlign: "center" }}>Loading...!</p>;
     if (this.state.loadedPost) {
       post = (

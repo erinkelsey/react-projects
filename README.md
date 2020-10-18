@@ -14,7 +14,7 @@ Simple React to do list app.
 
 ### Blog App
 
-Simple blog app using React and axios.
+Simple blog app using React, axios and react-router.
 
 ## React Info
 

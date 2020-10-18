@@ -1,6 +1,6 @@
 # Blog App
 
-Simple blog app using React, axios and JSONPlaceholder for the HTTP requests.
+Simple blog app using React, react-router-dom, axios and JSONPlaceholder for the HTTP requests.
 
 App shows how to to GET, POST and DELETE requests with axios.
 
