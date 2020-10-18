@@ -8,8 +8,6 @@ Show how to use axios global config like: interceptors,defaults like baseURL and
 
 JSONPlaceholder: https://jsonplaceholder.typicode.com
 
-Hosted example:
-
 ### Install
 
     $ npm install
