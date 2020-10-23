@@ -56,6 +56,17 @@ Class Component Lifecycle - Update (triggered by Parent):
   - DO: cause side-effects
   - DON'T: update state (triggers re-render)
 
+## Webpack - How it Works
+
+1. entry (e.g. app.js)
+   - multiple entry points possible
+2. loaders (e.g. babel-loader, css-loader)
+   - file-type dependent transformations
+3. plugins (e.g. uglify)
+   - global transformations
+4. output (e.g. dist/bundle.js)
+   - correctly ordered, concatenated output
+
 ## Redux - Immutable Update Patterns
 
 ### Updating Nested Objects
