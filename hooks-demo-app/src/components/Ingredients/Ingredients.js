@@ -1,9 +1,10 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, useEffect } from "react";
 
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import ErrorModal from "../UI/ErrorModal";
 import Search from "./Search";
+import useHttp from "../../hooks/http";
 
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -18,82 +19,64 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 };
 
-const httpReducer = (currentHttpState, action) => {
-  switch (action.type) {
-    case "SEND":
-      return { loading: true, error: null };
-    case "RESPONSE":
-      return { ...currentHttpState, loading: false };
-    case "ERROR":
-      return { loading: false, error: action.errorData };
-    case "CLEAR":
-      return { ...currentHttpState, error: null };
-    default:
-      throw new Error("Should not be reached");
-  }
-};
-
 function Ingredients() {
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
-  const [httpState, dispatchHttp] = useReducer(httpReducer, {
-    loading: false,
-    error: null
-  });
+  const {
+    isLoading,
+    error,
+    data,
+    sendRequest,
+    reqExtra,
+    reqIdentifer,
+    clear
+  } = useHttp();
 
-  const addIngredientHandler = async ingredient => {
-    try {
-      dispatchHttp({ type: "SEND" });
+  useEffect(() => {
+    if (!isLoading && !error && reqIdentifer === "REMOVE_INGREDIENT")
+      dispatch({ type: "DELETE", id: reqExtra });
+    else if (!isLoading && !error && reqIdentifer === "ADD_INGREDIENT")
+      dispatch({ type: "ADD", ingredient: { id: data.name, ...reqExtra } });
+  }, [isLoading, error, data, reqExtra, reqIdentifer]); // runs every render cycle -> like componentDidMount
+
+  const addIngredientHandler = useCallback(
+    ingredient => {
       const firebaseURL = process.env.REACT_APP_FIREBASE_DB_URL;
-      const response = await fetch(firebaseURL + "/ingredients.json", {
-        method: "POST",
-        body: JSON.stringify(ingredient),
-        headers: { "Content-Type": "application/json" }
-      });
-
-      const responseData = await response.json();
-
-      dispatchHttp({ type: "RESPONSE" });
-      dispatch({
-        type: "ADD",
-        ingredient: { id: responseData.name, ...ingredient }
-      });
-    } catch (error) {
-      dispatchHttp({ type: "ERROR", errorData: error.message });
-    }
-  };
+      sendRequest(
+        firebaseURL + "/ingredients.json",
+        "POST",
+        JSON.stringify(ingredient),
+        ingredient,
+        "ADD_INGREDIENT"
+      );
+    },
+    [sendRequest]
+  );
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     dispatch({ type: "SET", ingredients: filteredIngredients });
   }, []);
 
-  const removeIngredientHandler = async ingredientId => {
-    try {
-      dispatchHttp({ type: "SEND" });
+  const removeIngredientHandler = useCallback(
+    ingredientId => {
       const firebaseURL = process.env.REACT_APP_FIREBASE_DB_URL;
-      await fetch(firebaseURL + `/ingredients/${ingredientId}.json`, {
-        method: "DELETE"
-      });
-
-      dispatchHttp({ type: "RESPONSE" });
-      dispatch({ type: "DELETE", id: ingredientId });
-    } catch (error) {
-      dispatchHttp({ type: "ERROR", errorData: error.message });
-    }
-  };
-
-  const clearErrorHandler = () => {
-    dispatchHttp({ type: "CLEAR" });
-  };
+      sendRequest(
+        firebaseURL + `/ingredients/${ingredientId}.json`,
+        "DELETE",
+        null,
+        ingredientId,
+        "REMOVE_INGREDIENT"
+      );
+    },
+    [sendRequest]
+  );
 
   return (
     <div className='App'>
-      {httpState.error && (
-        <ErrorModal onClose={clearErrorHandler}>{httpState.error}</ErrorModal>
-      )}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
 
       <IngredientForm
         onAddIngredient={addIngredientHandler}
-        loading={httpState.loading}
+        loading={isLoading}
       />
 
       <section>
