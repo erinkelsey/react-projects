@@ -9,3 +9,9 @@ A simple app example app for React with classes.
 ## Run
 
     $ npm start
+
+## Deploy to GitHub Pages
+
+**Change the homepage in package.json to the current GitHub URL for your project**
+
+    $ npm run deploy
