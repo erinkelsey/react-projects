@@ -22,6 +22,39 @@ A simple app to show how to use React Hooks like useState(), useCallback(), useR
 
 ## React Info
 
+### Check and Update React and Packages
+
+#### Check Version of Install Packages
+
+yarn:
+
+    $ yarn list react react-dom react-scripts
+
+npm:
+
+    $ npm list react react-dom react-scripts
+
+#### Update
+
+Make sure that the ^ symbol is in front of the version in package.json file, for example:
+
+    "react": "^16.8.6"
+
+##### Run
+
+yarn:
+
+    $ yarn upgrade OR
+    $ yarn install (if you get an error when running above - .lock file is out of date)
+
+npm:
+
+    $ npm update
+
+#### Update Packages with Vulnerabilities
+
+    $ npm audit fix
+
 ### Component Lifecycle
 
 Class Component Lifecycle - Creation:
@@ -59,6 +92,8 @@ Class Component Lifecycle - Update (triggered by Parent):
 - componentDidUpdate()
   - DO: cause side-effects
   - DON'T: update state (triggers re-render)
+
+![React Lifecycle Diagram](/images/react-lifecycle.png "React Lifecycle Diagram")
 
 ## Webpack - How it Works
 
