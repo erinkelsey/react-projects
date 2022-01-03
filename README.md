@@ -20,10 +20,6 @@ Simple blog app using React, axios and react-router.
 
 A simple app to show how to use React Hooks like useState(), useCallback(), useRef(), useReducer(), useContext(), useMemo() and useEffect().
 
-### Monsters Rolodex App
-
-A simple example app for React, with classes, of a searchable rolodex of monsters.
-
 ## React Info
 
 ### Component Lifecycle
