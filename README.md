@@ -57,7 +57,7 @@ npm:
 
 ### Component Lifecycle
 
-Class Component Lifecycle - Creation:
+Class Component Lifecycle - Creation/Mounting:
 
 - constructor(props)
   - call super(props)
@@ -66,10 +66,10 @@ Class Component Lifecycle - Creation:
 - componentWillMount()
   - DO: update state, last-minute optimization
   - DON'T: cause side-effects
-  - exists for historical reasons
+  - exists for historical reasons - deprecated
 - render()
   - prepare and structure JSX code
-- Render Child Components
+- Render Child Components:
 - componentDidMount()
   - DO: cause side-effects
   - DON'T: update state (triggers re-render)
@@ -88,10 +88,15 @@ Class Component Lifecycle - Update (triggered by Parent):
   - DON'T: cause side-effects
 - render()
   - prepare and structure JSX code
-- Update Child Component Props
+- Update Child Component Props:
 - componentDidUpdate()
   - DO: cause side-effects
   - DON'T: update state (triggers re-render)
+
+Unmounting:
+
+- componentWillUnmount()
+  - clean up any memory leaks
 
 ![React Lifecycle Diagram](/images/react-lifecycle.png "React Lifecycle Diagram")
 
